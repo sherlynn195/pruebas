@@ -75,6 +75,7 @@ function renderizarResumen(detalle, total) {
     `;
 
     totalFinalDiv.textContent = `Total a pagar: $${total.toFixed(2)}`;
+    
 }
 
 const modalOverlay = document.getElementById('modalOverlay');
