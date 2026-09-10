@@ -16,9 +16,13 @@
 
         <section class="login-card">
 
-            <h1>Iniciar sesión</h1>
+            <h1>Bienvenido</h1>
 
-            <form id="loginForm">
+            <p class="login-subtitle">
+                Inicia sesión para continuar
+            </p>
+
+            <form action="../../backend/api/login.php" method="POST">
 
                 <div>
                     <label for="usuario">
@@ -50,15 +54,11 @@
                     Iniciar sesión
                 </button>
 
-                <p id="mensaje"></p>
-
             </form>
 
         </section>
 
     </main>
-
-    <script src="../js/login.js"></script>
 
 </body>
 
