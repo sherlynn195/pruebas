@@ -31,7 +31,7 @@ $_SESSION["rol"] = $usuarioEncontrado["rol"];
 
 if ($usuarioEncontrado["rol"] === "administrador") {
 
-    header("Location: ../../frontend/pages/dadministrador.html");
+    header("Location: ../../frontend/pages/administrador.html");
     exit;
 }
 
