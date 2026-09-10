@@ -4,12 +4,8 @@ session_start();
 
 require_once "../config/usuarios.php";
 
-header("Content-Type: application/json");
-
-$data = json_decode(file_get_contents("php://input"), true);
-
-$usuarioIngresado = $data["usuario"] ?? "";
-$passwordIngresada = $data["password"] ?? "";
+$usuarioIngresado = $_POST["usuario"] ?? "";
+$passwordIngresada = $_POST["password"] ?? "";
 
 $usuarioEncontrado = null;
 
@@ -26,19 +22,21 @@ foreach ($usuarios as $usuario) {
 
 if ($usuarioEncontrado === null) {
 
-    echo json_encode([
-        "success" => false,
-        "message" => "Usuario o contraseña incorrectos"
-    ]);
-
+    header("Location: ../../frontend/pages/error.html");
     exit;
 }
 
 $_SESSION["usuario"] = $usuarioEncontrado["usuario"];
 $_SESSION["rol"] = $usuarioEncontrado["rol"];
 
-echo json_encode([
-    "success" => true,
-    "usuario" => $usuarioEncontrado["usuario"],
-    "rol" => $usuarioEncontrado["rol"]
-]);
+if ($usuarioEncontrado["rol"] === "administrador") {
+
+    header("Location: ../../frontend/pages/dadministrador.html");
+    exit;
+}
+
+if ($usuarioEncontrado["rol"] === "cliente") {
+
+    header("Location: ../../frontend/pages/cliente.html");
+    exit;
+}
