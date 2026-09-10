@@ -1,41 +1,255 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Administrador</title>
-
-    <link rel="stylesheet" href="../css/login.css">
+    <title>Panel de Administrador - E-commerce</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        olive: { 700: '#3B5323', 800: '#2E411B' },
+                        rose: { 100: '#F4E8E6', 200: '#E8D1CD' }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body class="bg-rose-100 min-h-screen flex font-sans">
 
-<body>
+    <!-- Barra Lateral Interactiva (Sidebar) -->
+    <aside class="w-64 bg-olive-800 text-white flex flex-col justify-between hidden md:flex">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider text-rose-200 mb-8">Admin Panel</h1>
+            <nav class="space-y-4">
+                <button onclick="cambiarSeccion('dashboard')" id="btn-dashboard" class="w-full text-left py-2.5 px-4 rounded transition bg-olive-700 text-white font-medium">Dashboard</button>
+                <button onclick="cambiarSeccion('productos')" id="btn-productos" class="w-full text-left py-2.5 px-4 rounded transition hover:bg-olive-700 text-rose-100">Productos</button>
+                <button onclick="cambiarSeccion('ventas')" id="btn-ventas" class="w-full text-left py-2.5 px-4 rounded transition hover:bg-olive-700 text-rose-100">Ventas</button>
+                <button onclick="cambiarSeccion('usuarios')" id="btn-usuarios" class="w-full text-left py-2.5 px-4 rounded transition hover:bg-olive-700 text-rose-100">Usuarios</button>
+            </nav>
+        </div>
+        <div class="p-6">
+            <a href="login.html" class="block py-2 px-4 text-center border border-rose-200 text-rose-200 rounded hover:bg-rose-200 hover:text-olive-800 transition">Cerrar Sesión</a>
+        </div>
+    </aside>
 
-    <main class="role-container">
+    <!-- Contenido Principal -->
+    <div class="flex-1 flex flex-col">
+        <!-- Navbar Superior -->
+        <header class="bg-white shadow-sm h-16 flex items-center justify-between px-8">
+            <span id="titulo-seccion" class="text-xl font-semibold text-olive-800">Panel de Control General</span>
+            <div class="flex items-center space-x-3">
+                <span class="text-sm font-medium text-gray-700">Administrador</span>
+                <div class="w-10 h-10 rounded-full bg-olive-800 text-rose-200 flex items-center justify-center font-bold">A</div>
+            </div>
+        </header>
 
-        <section class="role-card">
+        <!-- Cuerpo del Dashboard (Secciones Dinámicas) -->
+        <main class="p-8 flex-1 overflow-y-auto">
+            
+            <!-- SECCIÓN 1: DASHBOARD (Alimentado por PHP JSON sin BD) -->
+            <div id="seccion-dashboard" class="seccion-contenido">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-olive-700">
+                        <p class="text-sm text-gray-500 font-medium">Ventas Totales</p>
+                        <h3 id="kpi-ventas" class="text-3xl font-bold text-olive-800 mt-2">Cargando...</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-rose-200">
+                        <p class="text-sm text-gray-500 font-medium">Productos Activos</p>
+                        <h3 id="kpi-productos" class="text-3xl font-bold text-olive-800 mt-2">Cargando...</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-olive-700">
+                        <p class="text-sm text-gray-500 font-medium">Distribución de Pedidos</p>
+                        <h3 id="kpi-pedidos" class="text-3xl font-bold text-olive-800 mt-2">Cargando...</h3>
+                    </div>
+                </div>
 
-            <span class="role-icon">◆</span>
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-bold text-olive-800 mb-4">Comportamiento del Sistema (Simulación PHP)</h3>
+                    <div class="relative h-80 w-full">
+                        <canvas id="adminChart"></canvas>
+                    </div>
+                </div>
+            </div>
 
-            <p class="role-label">
-                ACCESO CORRECTO
-            </p>
+            <!-- SECCIÓN 2: PRODUCTOS (Estructura de Datos Simulada) -->
+            <div id="seccion-productos" class="seccion-contenido hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-olive-800">Catálogo de Productos (Estructura en Memoria)</h3>
+                        <span class="text-xs bg-rose-100 text-olive-800 font-semibold px-3 py-1 rounded-full">Sin Base de Datos</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-rose-50 text-olive-800 text-sm border-b border-rose-200">
+                                    <th class="p-3">ID</th>
+                                    <th class="p-3">Nombre del Producto</th>
+                                    <th class="p-3">Categoría</th>
+                                    <th class="p-3">Precio</th>
+                                    <th class="p-3">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos" class="text-sm text-gray-700 divide-y divide-gray-100">
+                                <!-- Se llena dinámicamente con JS desde el backend simulado -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <h1>Administrador</h1>
+            <!-- SECCIÓN 3: VENTAS (Registros Simulados) -->
+            <div id="seccion-ventas" class="seccion-contenido hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-olive-800">Historial de Transacciones (Simulación PHP)</h3>
+                        <span class="text-xs bg-rose-100 text-olive-800 font-semibold px-3 py-1 rounded-full">Arreglos Internos</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-rose-50 text-olive-800 text-sm border-b border-rose-200">
+                                    <th class="p-3">Folio</th>
+                                    <th class="p-3">Cliente</th>
+                                    <th class="p-3">Fecha</th>
+                                    <th class="p-3">Total</th>
+                                    <th class="p-3">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-ventas" class="text-sm text-gray-700 divide-y divide-gray-100">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <p>
-                Has iniciado sesión como administrador.
-            </p>
+            <!-- SECCIÓN 4: USUARIOS (Directorio Simulado) -->
+            <div id="seccion-usuarios" class="seccion-contenido hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-olive-800">Directorio de Usuarios Registrados</h3>
+                        <span class="text-xs bg-rose-100 text-olive-800 font-semibold px-3 py-1 rounded-full">Control Lógico</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-rose-50 text-olive-800 text-sm border-b border-rose-200">
+                                    <th class="p-3">ID Usuario</th>
+                                    <th class="p-3">Nombre</th>
+                                    <th class="p-3">Correo Electrónico</th>
+                                    <th class="p-3">Rol</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-usuarios" class="text-sm text-gray-700 divide-y divide-gray-100">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <a href="login.html" class="secondary-button">
-                Cerrar sesión
-            </a>
+        </main>
+    </div>
 
-        </section>
+    <!-- Script de Interactividad y Carga de Datos desde el Backend PHP (Sin BD) -->
+    <script>
+        function cambiarSeccion(seccionId) {
+            document.querySelectorAll('.seccion-contenido').forEach(el => el.classList.add('hidden'));
+            document.getElementById('seccion-' + seccionId).classList.remove('hidden');
 
-    </main>
+            document.querySelectorAll('aside nav button').forEach(btn => {
+                btn.classList.remove('bg-olive-700', 'text-white', 'font-medium');
+                btn.classList.add('text-rose-100');
+            });
+            const btnActivo = document.getElementById('btn-' + seccionId);
+            btnActivo.classList.add('bg-olive-700', 'text-white', 'font-medium');
+            btnActivo.classList.remove('text-rose-100');
 
+            const titulos = {
+                'dashboard': 'Panel de Control General',
+                'productos': 'Módulo de Productos',
+                'ventas': 'Reporte de Ventas',
+                'usuarios': 'Gestión de Usuarios'
+            };
+            document.getElementById('titulo-seccion').innerText = titulos[seccionId];
+        }
+
+        // Petición al backend PHP que procesa los arreglos lógicos sin base de datos
+        fetch('../../backend/api/grafica.php')
+            .then(response => response.json())
+            .then(data => {
+                // KPIs del Dashboard
+                document.getElementById('kpi-ventas').innerText = data.kpis.ventas_totales;
+                document.getElementById('kpi-productos').innerText = data.kpis.productos_activos;
+                document.getElementById('kpi-pedidos').innerText = data.kpis.distribucion_pedidos;
+
+                // Gráfica Chart.js
+                const ctx = document.getElementById('adminChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.meses,
+                        datasets: [{
+                            label: 'Ventas Mensuales ($)',
+                            data: data.ventas,
+                            backgroundColor: '#3B5323',
+                            borderRadius: 6
+                        }, {
+                            label: 'Productos Nuevos',
+                            data: data.productos,
+                            backgroundColor: '#E8D1CD',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+
+                // Llenar tabla de Productos simulados
+                const tablaProductos = document.getElementById('tabla-productos');
+                data.productos_lista.forEach(p => {
+                    tablaProductos.innerHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-medium text-olive-800">${p.id}</td>
+                            <td class="p-3">${p.nombre}</td>
+                            <td class="p-3">${p.categoria}</td>
+                            <td class="p-3 font-semibold text-olive-700">$${p.precio}</td>
+                            <td class="p-3">${p.stock} unidades</td>
+                        </tr>`;
+                });
+
+                // Llenar tabla de Ventas simuladas
+                const tablaVentas = document.getElementById('tabla-ventas');
+                data.ventas_lista.forEach(v => {
+                    tablaVentas.innerHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-medium text-olive-800">${v.folio}</td>
+                            <td class="p-3">${v.cliente}</td>
+                            <td class="p-3">${v.fecha}</td>
+                            <td class="p-3 font-semibold text-olive-700">$${v.total}</td>
+                            <td class="p-3"><span class="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-medium">${v.estado}</span></td>
+                        </tr>`;
+                });
+
+                // Llenar tabla de Usuarios simulados
+                const tablaUsuarios = document.getElementById('tabla-usuarios');
+                data.usuarios_lista.forEach(u => {
+                    tablaUsuarios.innerHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-medium text-olive-800">${u.id}</td>
+                            <td class="p-3">${u.nombre}</td>
+                            <td class="p-3 text-gray-500">${u.correo}</td>
+                            <td class="p-3"><span class="bg-rose-100 text-olive-800 text-xs px-2.5 py-1 rounded-full font-medium">${u.rol}</span></td>
+                        </tr>`;
+                });
+            })
+            .catch(error => console.error('Error al cargar datos lógicos:', error));
+    </script>
 </body>
-
 </html>
