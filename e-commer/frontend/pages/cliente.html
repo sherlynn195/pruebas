@@ -7,35 +7,40 @@
 
     <title>Cliente</title>
 
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/cliente.css">
 </head>
 
 <body>
 
-    <main class="role-container">
+    <header class="navbar">
+        <span class="logo">Catálogo</span>
+        <div class="acciones">
+            <a href="login.html" onclick="localStorage.removeItem('carritoCompra')">Cerrar sesión</a>
+        </div>
+    </header>
 
-        <section class="role-card">
+    <section class="hero-catalogo">
+        <h1>Encuentra tu próxima prenda favorita.</h1>
+        <p>Explora el catálogo, agrega lo que te guste y revisa el resumen antes de confirmar tu compra.</p>
+    </section>
 
-            <span class="role-icon">◆</span>
-
-            <p class="role-label">
-                ACCESO CORRECTO
-            </p>
-
-            <h1>Cliente</h1>
-
-            <p>
-                Has iniciado sesión como cliente.
-            </p>
-
-            <a href="login.html" class="secondary-button">
-                Cerrar sesión
-            </a>
-
-        </section>
-
+    <main class="contenedor">
+        <div id="catalogo" class="catalogo">
+            <!-- Los productos se cargan aquí dinámicamente vía JS -->
+        </div>
     </main>
 
+    <div class="barra-carrito">
+        <div class="resumen-rapido">
+            Productos seleccionados: <strong id="cantidadCarrito">0</strong>
+        </div>
+        <button id="btnVerResumen" disabled>Ver resumen de compra</button>
+    </div>
+
+    <script src="../js/cliente.js"></script>
 </body>
 
 </html>

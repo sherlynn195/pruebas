@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resumen de Compra</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/cliente.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <span class="logo">Catálogo</span>
+        <div class="acciones">
+            <a href="cliente.html">Volver al catálogo</a>
+        </div>
+    </header>
+
+    <section class="hero-catalogo">
+        <h1>Resumen de tu compra</h1>
+        <p>Revisa los productos seleccionados antes de confirmar.</p>
+    </section>
+
+    <main class="contenedor">
+        <div id="contenidoResumen">
+            <!-- La tabla de resumen se carga aquí dinámicamente vía JS -->
+        </div>
+
+        <div class="total-final" id="totalFinal"></div>
+
+        <div class="acciones-finales">
+            <a href="cliente.html" class="btn-volver">Seguir comprando</a>
+            <button id="btnConfirmar" class="btn-confirmar">Confirmar compra</button>
+        </div>
+    </main>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-confirmacion">
+        <div class="modal-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        <h2>¡Compra confirmada!</h2>
+        <p>Tu pedido se generó correctamente.</p>
+        <div class="modal-total" id="modalTotal"></div>
+        <button id="btnCerrarModal">Volver al catálogo</button>
+    </div>
+</div>
+
+    <script src="../js/resumen.js"></script>
+</body>
+
+</html>

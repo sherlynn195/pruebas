@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nombre": "Camiseta Básica",
+    "precio": 199.99,
+    "existencias": 25,
+    "imagen": "../images/placeholder.png"
+  },
+  {
+    "id": 2,
+    "nombre": "Pantalón Casual",
+    "precio": 449.50,
+    "existencias": 12,
+    "imagen": "../images/placeholder.png"
+  },
+  {
+    "id": 3,
+    "nombre": "Tenis Deportivos",
+    "precio": 899.00,
+    "existencias": 8,
+    "imagen": "../images/placeholder.png"
+  },
+  {
+    "id": 4,
+    "nombre": "Gorra",
+    "precio": 149.00,
+    "existencias": 30,
+    "imagen": "../images/placeholder.png"
+  },
+  {
+    "id": 5,
+    "nombre": "Chamarra",
+    "precio": 1299.00,
+    "existencias": 5,
+    "imagen": "../images/placeholder.png"
+  },
+  {
+    "id": 6,
+    "nombre": "Mochila",
+    "precio": 599.99,
+    "existencias": 15,
+    "imagen": "../images/placeholder.png"
+  }
+]
