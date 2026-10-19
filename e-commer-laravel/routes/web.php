@@ -7,9 +7,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Después de iniciar sesión, cada usuario va a su dashboard según su rol
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return match (auth()->user()->rol) {
+        'gerente'  => redirect()->route('gerente.dashboard'),
+        'empleado' => redirect()->route('empleado.dashboard'),
+        default    => redirect()->route('cliente.dashboard'),
+    };
+})->middleware('auth')->name('dashboard');
+
+Route::middleware(['auth', 'role:cliente'])->prefix('cliente')->name('cliente.')
+    ->group(base_path('routes/cliente.php'));
+
+Route::middleware(['auth', 'role:empleado'])->prefix('empleado')->name('empleado.')
+    ->group(base_path('routes/empleado.php'));
+
+Route::middleware(['auth', 'role:gerente'])->prefix('gerente')->name('gerente.')
+    ->group(base_path('routes/gerente.php'));
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
