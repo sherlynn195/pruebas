@@ -3,9 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'publico.inicio')->name('inicio');
+Route::view('/quienes-somos', 'publico.quienes-somos')->name('quienes-somos');
+Route::view('/mision-vision', 'publico.mision-vision')->name('mision-vision');
+Route::view('/ubicacion', 'publico.ubicacion')->name('ubicacion');
+Route::view('/contactanos', 'publico.contactanos')->name('contactanos');
 
 // Después de iniciar sesión, cada usuario va a su dashboard según su rol
 Route::get('/dashboard', function () {
