@@ -10,9 +10,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UsuarioSeeder::class,
-            // Descomentar cuando existan (los crean los compañeros):
-            // CategoriaSeeder::class,
-            // ProductoSeeder::class,
+            CategoriaSeeder::class,
+            ProductoSeeder::class,
             // VentaSeeder::class,
         ]);
     }
