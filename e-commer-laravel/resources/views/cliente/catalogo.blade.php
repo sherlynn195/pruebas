@@ -1,43 +1,8 @@
+@extends('layouts.panel')
 
-<x-app-layout>
-    <div class="min-h-screen bg-[#FAF8F4] text-[#264F3F]">
-
-        {{-- Encabezado de la tienda --}}
-        <header class="border-b border-[#E8E3DB] bg-[#FAF8F4]">
-            <div class="mx-auto flex max-w-7xl flex-wrap items-center
-                        justify-between gap-4 px-6 py-5">
-
-                <a href="{{ route('cliente.dashboard') }}"
-                   class="text-2xl font-bold tracking-tight"
-                   style="font-family: Georgia, serif;">
-                    ◉ Shop free
-                </a>
-
-                <div class="flex flex-wrap items-center gap-5 text-sm">
-                    <a href="{{ route('cliente.dashboard') }}"
-                       class="transition hover:text-[#A36F65]">
-                        Inicio
-                    </a>
-
-                    <a href="#categorias"
-                       class="transition hover:text-[#A36F65]">
-                        Categorías
-                    </a>
-
-                    <a href="#productos"
-                       class="transition hover:text-[#A36F65]">
-                        Productos
-                    </a>
-
-                    <span class="rounded-full border border-[#264F3F]
-                                 px-4 py-2">
-                        Mi cuenta
-                    </span>
-                </div>
-            </div>
-        </header>
-
-        <main class="mx-auto max-w-7xl px-6">
+@section('content')
+<div class="min-h-screen bg-[#FAF8F4] text-[#264F3F]">
+<div class="mx-auto max-w-7xl px-6">
 
             {{-- Banner principal --}}
             <section class="grid items-center gap-10 py-14
@@ -274,24 +239,6 @@
     </a>
 </section>
 
-        </main>
-
-        {{-- Pie de página --}}
-        <footer class="border-t border-[#E8E3DB] bg-[#F3F0E9]">
-            <div class="mx-auto flex max-w-7xl flex-col
-                        items-center justify-between gap-3 px-6 py-6
-                        text-center text-sm text-[#68665F] sm:flex-row">
-                <span class="font-semibold text-[#264F3F]">
-                    Shop free
-                </span>
-
-                <span>
-                    Encuentra tu estilo, siéntete en casa.
-                </span>
-
-                <span>© {{ date('Y') }} Shop Free</span>
-            </div>
-        </footer>
-
-    </div>
-</x-app-layout>
+        </div>
+</div>
+@endsection

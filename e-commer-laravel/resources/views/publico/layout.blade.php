@@ -47,6 +47,10 @@
             <div class="flex items-center gap-3 text-sm font-medium">
                 @auth
                     <a href="{{ url('/dashboard') }}" class="rounded-full bg-[#27533E] px-6 py-2.5 text-white hover:bg-[#1f4332]">Ir a mi panel</a>
+                    <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="rounded-full border border-[#27533E] px-6 py-2.5 text-[#27533E] hover:bg-[#27533E]/5">Cerrar sesión</button>
+</form>
                 @else
                     <a href="{{ route('login') }}" class="rounded-full border border-[#27533E] px-6 py-2.5 text-[#27533E] hover:bg-[#27533E]/5">Iniciar sesión</a>
                     <a href="{{ route('register') }}" class="rounded-full bg-[#27533E] px-6 py-2.5 text-white hover:bg-[#1f4332]">Registrarse</a>

@@ -1,256 +1,101 @@
+@extends('layouts.panel')
+@section('title', 'Inicio')
 
-<x-app-layout>
-    <div class="min-h-screen bg-[#FAF8F3] text-[#263D32]">
+@section('content')
+<div class="space-y-12 pb-10">
+    <section class="relative isolate overflow-hidden rounded-[2.5rem] bg-white px-7 py-10 shadow-[0_10px_40px_rgba(43,43,43,0.06)] sm:px-10 sm:py-14">
+        <svg class="pointer-events-none absolute -right-10 -top-16 -z-10 h-80 w-80 text-[#E8CEC8] sm:right-8 sm:top-1/2 sm:h-[26rem] sm:w-[26rem] sm:-translate-y-1/2" viewBox="0 0 240 240" aria-hidden="true">
+            <path fill="currentColor" d="M193.8 41.6c23.8 20.4 39.5 56.2 32.3 86.4-7.1 30.2-37.1 54.9-69 72.6-31.8 17.7-65.5 28.5-93.3 16.1-27.8-12.5-49.7-48.2-49.5-83.2.2-35 22.5-69.4 53.3-91.4 30.8-22.1 70-31.8 101.7-24.6 9 2.1 17.3 10.4 24.5 14.1z"/>
+        </svg>
 
-        {{-- PORTADA --}}
-        <section class="relative overflow-hidden">
-            <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
+        <div class="relative z-10 max-w-2xl">
+            <p class="text-sm font-medium uppercase tracking-[0.18em] text-[#7A3B2E]">Tu espacio personal</p>
+            <h1 class="mt-3 font-display text-4xl font-semibold leading-tight text-[#27533E] sm:text-5xl lg:text-6xl">
+                Hola, {{ auth()->user()->nombre }}
+            </h1>
+            <p class="mt-5 max-w-xl text-base leading-7 text-[#2B2B2B]/75 sm:text-lg">
+                Qué bueno tenerte de vuelta. Aquí puedes ver los productos disponibles.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+                @if (Route::has('cliente.catalogo'))
+                    <a href="{{ route('cliente.catalogo') }}" class="rounded-full bg-[#27533E] px-6 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(39,83,62,0.20)] transition hover:bg-[#1f4332]">Ver catálogo</a>
+                @endif
+                @if (Route::has('inicio'))
+                    <a href="{{ route('inicio') }}" class="rounded-full border border-[#27533E] px-6 py-3 text-sm font-medium text-[#27533E] transition hover:bg-[#27533E]/5">Ver tienda</a>
+                @endif
+            </div>
+        </div>
+    </section>
 
-                <div class="relative z-10">
-                    <span class="mb-5 inline-block rounded-full bg-[#E8EDE5] px-4 py-2 text-sm font-medium">
-                        ✨ Tu estilo, tu esencia
+    <section aria-labelledby="cuenta-titulo" class="rounded-[2rem] bg-white p-7 shadow-[0_10px_40px_rgba(43,43,43,0.06)] sm:p-9">
+        <h2 id="cuenta-titulo" class="font-display text-2xl font-semibold text-[#27533E]">Tu cuenta</h2>
+        <div class="mt-6 flex flex-col gap-5 border-t border-[#2B2B2B]/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <p class="text-lg font-semibold">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</p>
+                <p class="mt-1 text-sm text-[#2B2B2B]/65">{{ auth()->user()->correo }}</p>
+            </div>
+            <span class="inline-flex w-fit rounded-full bg-[#E8CEC8] px-4 py-2 text-sm font-medium text-[#7A3B2E]">{{ ucfirst(auth()->user()->rol) }}</span>
+        </div>
+    </section>
+
+    <section aria-labelledby="accesos-titulo">
+        <div>
+            <h2 id="accesos-titulo" class="font-display text-2xl font-semibold text-[#27533E]">Accesos rápidos</h2>
+            <p class="mt-2 text-sm text-[#2B2B2B]/65">Encuentra lo que necesitas en un solo lugar.</p>
+        </div>
+
+        <div class="mt-7 flex flex-wrap gap-x-8 gap-y-7 sm:gap-x-12">
+            @if (Route::has('cliente.catalogo'))
+                <a href="{{ route('cliente.catalogo') }}" class="group flex w-24 flex-col items-center text-center">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E] transition group-hover:bg-[#27533E] group-hover:text-white">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16l-1.2 13H5.2L4 7z"/><path d="M8 9V6a4 4 0 018 0v3"/><path d="M9 11v.01M15 11v.01"/></svg>
                     </span>
-
-                    <h1 class="text-5xl font-bold leading-tight tracking-tight md:text-7xl">
-                        Moda que se siente
-                        <span class="font-serif italic text-[#9A786A]">
-                            como en casa.
-                        </span>
-                    </h1>
-
-                    <p class="mt-6 max-w-lg text-lg leading-8 text-gray-600">
-                        Descubre prendas y accesorios seleccionados para acompañarte
-                        todos los días. Encuentra ese estilo que habla de ti.
-                    </p>
-
-                    <div class="mt-8 flex flex-wrap gap-4">
-                        <a href="#productos"
-                           class="rounded-full bg-[#294737] px-7 py-3.5 font-semibold text-white transition hover:bg-[#1D3528]">
-                            Explorar colección
-                        </a>
-
-                        <a href="#categorias"
-                           class="rounded-full border border-[#294737] px-7 py-3.5 font-semibold transition hover:bg-[#E8EDE5]">
-                            Ver categorías
-                        </a>
-                    </div>
-
-                    <div class="mt-10 flex flex-wrap gap-8 text-sm text-gray-600">
-                        <div>
-                            <span class="block text-xl font-bold text-[#294737]">Tu estilo</span>
-                            <span>Tu personalidad</span>
-                        </div>
-                        <div>
-                            <span class="block text-xl font-bold text-[#294737]">Cada día</span>
-                            <span>Nuevas posibilidades</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative mx-auto w-full max-w-lg">
-                    <div class="absolute -right-5 -top-5 h-32 w-32 rounded-full bg-[#E8D8CF]"></div>
-                    <div class="absolute -bottom-5 -left-5 h-28 w-28 rounded-full bg-[#DDE5D9]"></div>
-
-                    <img
-                        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1000&q=85"
-                        alt="Colección de moda"
-                        class="relative h-[420px] w-full rounded-[2rem] object-cover shadow-xl md:h-[520px]"
-                    >
-
-                    <div class="absolute bottom-6 left-6 rounded-2xl bg-white/95 p-4 shadow-lg">
-                        <p class="text-sm text-gray-500">Descubre tu próximo favorito</p>
-                        <p class="mt-1 font-semibold">Una colección para ti ♡</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        {{-- CATEGORÍAS --}}
-        <section id="categorias" class="border-y border-[#E9E4DA] bg-white py-16">
-            <div class="mx-auto max-w-7xl px-6">
-
-                <div class="mb-10 text-center">
-                    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[#9A786A]">
-                        Encuentra tu estilo
-                    </p>
-                    <h2 class="mt-3 font-serif text-4xl font-bold">
-                        Explora nuestras categorías
-                    </h2>
-                    <p class="mx-auto mt-4 max-w-xl text-gray-600">
-                        Inspírate y encuentra piezas que combinen contigo.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
-                    <a href="#productos" class="group overflow-hidden rounded-2xl bg-[#F5F0E8]">
-                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80"
-                             alt="Ropa para mujer"
-                             class="h-56 w-full object-cover transition duration-500 group-hover:scale-105">
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold">Ropa</h3>
-                            <p class="mt-1 text-sm text-gray-600">Encuentra tus favoritos</p>
-                        </div>
-                    </a>
-
-                    <a href="#productos" class="group overflow-hidden rounded-2xl bg-[#F5F0E8]">
-                        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=80"
-                             alt="Conjuntos y tendencias"
-                             class="h-56 w-full object-cover transition duration-500 group-hover:scale-105">
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold">Conjuntos</h3>
-                            <p class="mt-1 text-sm text-gray-600">Combina a tu manera</p>
-                        </div>
-                    </a>
-
-                    <a href="#productos" class="group overflow-hidden rounded-2xl bg-[#F5F0E8]">
-                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80"
-                             alt="Prendas de temporada"
-                             class="h-56 w-full object-cover transition duration-500 group-hover:scale-105">
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold">Temporada</h3>
-                            <p class="mt-1 text-sm text-gray-600">Nuevas inspiraciones</p>
-                        </div>
-                    </a>
-
-                    <a href="#productos" class="group overflow-hidden rounded-2xl bg-[#F5F0E8]">
-                        <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=600&q=80"
-                             alt="Accesorios de moda"
-                             class="h-56 w-full object-cover transition duration-500 group-hover:scale-105">
-                        <div class="p-5">
-                            <h3 class="text-xl font-semibold">Accesorios</h3>
-                            <p class="mt-1 text-sm text-gray-600">Los detalles importan</p>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-        </section>
-
-        {{-- PRODUCTOS DESTACADOS --}}
-        <section id="productos" class="py-16 md:py-20">
-            <div class="mx-auto max-w-7xl px-6">
-
-                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-                    <div>
-                        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[#9A786A]">
-                            Selección especial
-                        </p>
-                        <h2 class="mt-3 font-serif text-4xl font-bold">
-                            Favoritos para ti
-                        </h2>
-                        <p class="mt-3 text-gray-600">
-                            Descubre algunas de nuestras piezas destacadas.
-                        </p>
-                    </div>
-
-                    <span class="text-sm text-gray-500">
-                        Colección de muestra
-                    </span>
-                </div>
-
-                <div class="mt-10 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
-
-                    <article class="group">
-                        <div class="relative overflow-hidden rounded-2xl bg-[#F0EAE1]">
-                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=700&q=80"
-                                 alt="Vestido elegante"
-                                 class="h-80 w-full object-cover transition duration-500 group-hover:scale-105">
-                            <span class="absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-semibold">
-                                DESTACADO
-                            </span>
-                        </div>
-                        <div class="mt-4 flex items-start justify-between gap-3">
-                            <div>
-                                <h3 class="font-semibold">Vestido elegante</h3>
-                                <p class="mt-1 text-sm text-gray-500">Estilo y comodidad</p>
-                            </div>
-                            <span class="font-bold">$599.00</span>
-                        </div>
-                    </article>
-
-                    <article class="group">
-                        <div class="overflow-hidden rounded-2xl bg-[#F0EAE1]">
-                            <img src="https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&w=700&q=80"
-                                 alt="Blusa casual"
-                                 class="h-80 w-full object-cover transition duration-500 group-hover:scale-105">
-                        </div>
-                        <div class="mt-4 flex items-start justify-between gap-3">
-                            <div>
-                                <h3 class="font-semibold">Blusa casual</h3>
-                                <p class="mt-1 text-sm text-gray-500">Ideal para cada día</p>
-                            </div>
-                            <span class="font-bold">$349.00</span>
-                        </div>
-                    </article>
-
-                    <article class="group">
-                        <div class="overflow-hidden rounded-2xl bg-[#F0EAE1]">
-                            <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=700&q=80"
-                                 alt="Bolso de moda"
-                                 class="h-80 w-full object-cover transition duration-500 group-hover:scale-105">
-                        </div>
-                        <div class="mt-4 flex items-start justify-between gap-3">
-                            <div>
-                                <h3 class="font-semibold">Bolso clásico</h3>
-                                <p class="mt-1 text-sm text-gray-500">Un toque especial</p>
-                            </div>
-                            <span class="font-bold">$449.00</span>
-                        </div>
-                    </article>
-
-                    <article class="group">
-                        <div class="overflow-hidden rounded-2xl bg-[#F0EAE1]">
-                            <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=700&q=80"
-                                 alt="Accesorios delicados"
-                                 class="h-80 w-full object-cover transition duration-500 group-hover:scale-105">
-                        </div>
-                        <div class="mt-4 flex items-start justify-between gap-3">
-                            <div>
-                                <h3 class="font-semibold">Accesorios delicados</h3>
-                                <p class="mt-1 text-sm text-gray-500">Pequeños detalles</p>
-                            </div>
-                            <span class="font-bold">$199.00</span>
-                        </div>
-                    </article>
-
-                </div>
-
-                <p class="mt-8 text-center text-sm text-gray-500">
-                    Los productos y precios mostrados son ejemplos visuales.
-                </p>
-
-            </div>
-        </section>
-
-        {{-- INVITACIÓN --}}
-        <section class="px-6 pb-16">
-            <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-[#294737] px-6 py-14 text-center text-white md:px-16 md:py-20">
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[#E8D8CF]">
-                    Tu próxima elección favorita
-                </p>
-                <h2 class="mx-auto mt-4 max-w-2xl font-serif text-4xl font-bold md:text-5xl">
-                    Tu estilo comienza aquí.
-                </h2>
-                <p class="mx-auto mt-5 max-w-xl leading-7 text-white/80">
-                    Explora, inspírate y encuentra las prendas que te hacen sentir bien.
-                </p>
-                <a href="#categorias"
-                   class="mt-8 inline-block rounded-full bg-[#F5F0E8] px-8 py-3.5 font-semibold text-[#294737] transition hover:bg-white">
-                    Descubrir colección
+                    <span class="mt-3 text-sm font-medium">Catálogo</span>
                 </a>
-            </div>
-        </section>
+            @else
+                <div class="flex w-24 flex-col items-center text-center opacity-50">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E]">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16l-1.2 13H5.2L4 7z"/><path d="M8 9V6a4 4 0 018 0v3"/></svg>
+                    </span>
+                    <span class="mt-3 text-sm font-medium">Catálogo</span>
+                    <span class="mt-1 text-xs">Próximamente</span>
+                </div>
+            @endif
 
-        {{-- PIE DE PÁGINA --}}
-        <footer class="border-t border-[#E9E4DA] bg-white">
-            <div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
-                <p class="font-serif text-xl font-bold text-[#294737]">Shop free</p>
-                <p>Encuentra tu estilo, expresa tu esencia.</p>
-                <p>© {{ date('Y') }} Shop free</p>
-            </div>
-        </footer>
+            @if (Route::has('cliente.compras'))
+                <a href="{{ route('cliente.compras') }}" class="group flex w-24 flex-col items-center text-center">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E] transition group-hover:bg-[#27533E] group-hover:text-white">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h2l2 11h10l2-8H7"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/><path d="M10 9h7M13.5 5.5v7"/></svg>
+                    </span>
+                    <span class="mt-3 text-sm font-medium">Mis compras</span>
+                </a>
+            @else
+                <div class="flex w-24 flex-col items-center text-center opacity-50">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E]">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h2l2 11h10l2-8H7"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
+                    </span>
+                    <span class="mt-3 text-sm font-medium">Mis compras</span>
+                    <span class="mt-1 text-xs">Próximamente</span>
+                </div>
+            @endif
 
-    </div>
-</x-app-layout>
+            @if (Route::has('inicio'))
+                <a href="{{ route('inicio') }}" class="group flex w-24 flex-col items-center text-center">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E] transition group-hover:bg-[#27533E] group-hover:text-white">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9M9 20v-6h6v6"/><path d="M8 10h.01M16 10h.01"/></svg>
+                    </span>
+                    <span class="mt-3 text-sm font-medium">Tienda</span>
+                </a>
+            @else
+                <div class="flex w-24 flex-col items-center text-center opacity-50">
+                    <span class="flex h-24 w-24 items-center justify-center rounded-full bg-[#E8CEC8] text-[#27533E]">
+                        <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9M9 20v-6h6v6"/></svg>
+                    </span>
+                    <span class="mt-3 text-sm font-medium">Tienda</span>
+                    <span class="mt-1 text-xs">Próximamente</span>
+                </div>
+            @endif
+        </div>
+    </section>
+</div>
+@endsection
